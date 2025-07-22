@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Salary Classifier</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .container-box {
+      background: #ffffffaa;
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .card-section {
+      border-radius: 20px;
+      padding: 25px;
+      height: 100%;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-input {
+      background: linear-gradient(to right, #ffe0c3, #ffb6b9);
+    }
+
+    .card-output {
+      background: linear-gradient(to right, #d0f0fd, #e0c3fc);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    .btn-custom {
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .prediction-box {
+      font-size: 1.2rem;
+    }
+
+    .table th, .table td {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-box">
+    <div class="row g-4">
+      <!-- Input Form -->
+      <div class="col-md-6">
+        <div class="card-section card-input h-100">
+          <div class="section-title">📝 Enter Employee Details</div>
+          <form method="POST">
+            <label class="form-label">Age: <span id="ageVal">30</span></label>
+            <input type="range" class="form-range" name="age" min="18" max="65" value="30" oninput="ageVal.innerText=this.value">
+
+            <label class="form-label mt-3">Education Level</label>
+            <select class="form-select" name="education">
+              <option value="1">Bachelors</option>
+              <option value="0">HS-grad</option>
+              <option value="2">Masters</option>
+            </select>
+
+            <label class="form-label mt-3">Job Role</label>
+            <select class="form-select" name="occupation">
+              <option value="0">Tech-support</option>
+              <option value="1">Sales</option>
+              <option value="2">Exec-managerial</option>
+            </select>
+
+            <label class="form-label mt-3">Hours per week: <span id="hoursVal">40</span></label>
+            <input type="range" class="form-range" name="hours" min="1" max="80" value="40" oninput="hoursVal.innerText=this.value">
+
+            <button type="submit" class="btn btn-dark w-100 mt-4 btn-custom">🔍 Predict Salary</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="col-md-6">
+        <div class="card-section card-output h-100">
+          <div class="section-title">💼 Prediction Results</div>
+          <p class="text-center text-muted">Based on the provided information, here is the result:</p>
+
+          {% if user_data %}
+          <table class="table table-bordered mt-4">
+            <thead class="table-light">
+              <tr>
+                <th>Age</th>
+                <th>Education</th>
+                <th>Occupation</th>
+                <th>Hours/Week</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ user_data.age }}</td>
+                <td>{{ user_data.education }}</td>
+                <td>{{ user_data.occupation }}</td>
+                <td>{{ user_data.hours }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="alert alert-success mt-3 text-center prediction-box">
+            🔮 <strong>Prediction:</strong> Employee earns <strong>{{ prediction }}</strong>
+          </div>
+          {% else %}
+          <div class="alert alert-secondary text-center mt-4">
+            No data submitted yet. Please enter employee details on the left.
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
